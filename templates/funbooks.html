@@ -1,0 +1,391 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Funbooks
+{% endblock %}
+
+{% block style %}
+
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Style the body */
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+    }
+
+    header {
+      background-image: url({{ url_for('static', filename='images/12345.jpg') }});
+      background-repeat: no-repeat;
+      background-size: 100%;
+      color: black;
+      padding: 65px;
+      text-align: center;
+
+
+    }
+
+
+    /* Increase the font size of the heading */
+    header h1 {
+      font-size: 65px;
+      color: #fbff16;
+       text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+    }
+
+    header p{
+      font-size: 20px;
+      font-style: Brush Script MT;/*, Brush Script Std, cursive;*/
+    }
+
+    /* Style the top navigation bar */
+    .navbar {
+      overflow: hidden;
+      background-color: black;
+    }
+
+    /* Style the navigation bar links */
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 28px;
+      text-decoration: none;
+    }
+
+    /* Right-aligned link */
+    .navbar a.right {
+      float: right;
+    }
+
+    /* Change color on hover */
+    .navbar a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    .navbar form.right {
+      float: right;
+    }
+
+    .button {
+        background-color: #587b0b; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 4px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-left: 8px;
+        margin-left: 8px;
+    }
+
+
+    #wrapper {
+        display:flex;
+        justify-content: center;
+    }
+
+
+
+    .navbar form.form input{
+      float: left;
+    }
+
+    /* Column container */
+    .row {
+      display: -ms-flexbox; /* IE10 */
+      display: flex;
+      -ms-flex-wrap: wrap; /* IE10 */
+      flex-wrap: wrap;
+    }
+
+    /* Create two unequal columns that sits next to each other */
+    /* Sidebar/left column */
+    .side {
+      -ms-flex: 30%; /* IE10 */
+      flex: 20%;
+      background-color: #587b0b;
+      padding: 20px;
+    }
+
+    /* Main column */
+    .main {
+      -ms-flex: 70%; /* IE10 */
+      flex: 80%;
+      background-color: #ddfa9e;
+      padding: 20px;
+    }
+
+    img {
+      width: 100%;
+      padding: auto;
+    }
+
+    .footer {
+      font-size: 20px;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      background: black;
+      width: 100%;
+    }
+
+    /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 700px) {
+      .row {
+          flex-direction: column;
+      }
+    }
+
+    /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+    @media screen and (max-width: 400px) {
+      .navbar a {
+          float: none;
+          width: 100%;
+      }
+    }
+
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        background-color: black;
+        color: white;
+    }
+
+    /* Set a style for all buttons */
+    button {
+        background-color: #587b0b;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #f44336;
+    }
+
+    /* Center the image and position the close button */
+    .imgcontainer {
+        text-align: center;
+        margin: 24px 0 12px 0;
+        position: relative;
+    }
+
+    img.avatar {
+        width: 20%;
+        border-radius: 50%;
+    }
+
+    .container1 {
+        padding: 16px;
+        color: white;
+
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background: rgba(0,0,0,.3);
+        border-top-color: rgba(255,255,255,.5);
+        border-left-color: rgba(255,255,255,.5);
+        border-bottom-color: rgba(60,60,60,.5);
+        border-right-color: rgba(60,60,60,.5);
+        /*background-color: #fefefe;*/
+        margin: 0 auto 0 auto; /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: red;
+        cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)}
+        to {-webkit-transform: scale(1)}
+    }
+
+    @keyframes animatezoom {
+        from {transform: scale(0)}
+        to {transform: scale(1)}
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+           display: block;
+           float: none;
+        }
+        .cancelbtn {
+           width: 100%;
+        }
+    }
+
+{% endblock %}
+
+{% block body %}
+    <header>
+      <h1>FunBOOKs</h1>
+      <p><i>A website created to exchange book-reviews.</i></p>
+    </header>
+
+    <div class="navbar">
+      <div id ="wrapper">
+        <button class="button" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Create new account</button>
+
+        <div id="id02" class="modal">
+
+          <form class="modal-content animate" action="{{ url_for('Registration') }}" method="post">
+            <div class="imgcontainer">
+              <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <img src="{{ url_for('static', filename='images/mylogo.png') }}" class="avatar">
+            </div>
+
+            <div class="container1">
+              <label for="name"><b>Full-Name</b></label>
+              <input type="text" placeholder="Enter Username" name="name" required>
+
+              <label for="password"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" required>
+
+              <label for="email"><b>Email_ID</b></label>
+              <input type="text" placeholder="Enter Password" name="email" required>
+
+              <label for="phone_number"><b>Contact-Number</b></label>
+              <input type="text" placeholder="Enter Password" name="phone_number" required>
+
+              <button type="submit">Register</button>
+
+              <div class="container1" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+        <script>
+          // Get the modal
+          var modal = document.getElementById('id02');
+
+          // When the user clicks anywhere outside of the modal, close it
+          window.onclick = function(event) {
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+          }
+        </script>
+
+        <button class="button" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+
+        <div id="id01" class="modal">
+
+          <form class="modal-content animate" action="{{ url_for('Login') }}" method="post">
+            <div class="imgcontainer">
+              <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+              <img src="{{ url_for('static', filename='images/mylogo.png') }}" class="avatar">
+            </div>
+
+            <div class="container1">
+              <label for="email"><b>User-email</b></label>
+              <input type="text" placeholder="Enter Email" name="email" required>
+
+              <label for="password"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" required>
+
+              <button type="submit">Login</button>
+              <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+              </label>
+
+              <div class="container1" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+    <div class="side">
+        <h2>About Me</h2>
+        <a href="https://www.linkedin.com/in/neha-kumari-127147159/">Click here to see my LinkedIn profile</a>
+        <h5>Photo of me:</h5>
+        <img style="height:200px" src="{{ url_for('static', filename='images/nnnn.jpg') }}">
+    </div>
+    <div class="main">
+        <h2>ABOUT FunBOOKs:</h2>
+        <h5>22nd August, 2018</h5>
+        <img style="height:250px" src="{{ url_for('static', filename='images/121.jpg') }}">
+        <p>This website is purely designed for exchange of reviews. User can access the details of the book as well as reviews of the book.
+           This site will help you pick up right books and you can also help others to pick the right book by giving reviews on books. Hope you will like the site.</p>
+        <p>To take the benefit of all the facilities mentioned above you have to create an account first.</p>
+    </div>
+
+    <div class="footer">
+      <p>Have a good day.</p>
+    </div>
+
+{% endblock %}
